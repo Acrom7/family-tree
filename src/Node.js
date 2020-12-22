@@ -1,7 +1,7 @@
-export class Node {
-    constructor(nodeValue = ' ') {
-        this.value = nodeValue
-        this.left = null
-        this.right = null
+export function Node(value) {
+    return {
+        value,
+        left: null,
+        right: null
     }
 }
