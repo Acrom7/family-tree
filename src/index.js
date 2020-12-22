@@ -21,3 +21,9 @@ console.log(getValues(parents))
 
 const grandparents = Tree.getGrandparents(root, 1, 1)
 console.log(getValues(grandparents))
+
+const ancestors = Tree.getAncestors(root, 1, 1)
+console.log(getValues(ancestors))
+
+const child = Tree.getChild(root, 3, 3)
+console.log(child.value)

@@ -127,38 +127,69 @@ function toArray(root) {
 }
 
 function getParents(root, level, position) {
+	const node = getNode(root, level, position)
+	return [node.left, node.right].filter(el => el !== null)
+}
+
+function getGrandparents(root, level, position) {
+	const parents = getParents(root, level, position)
+	return parents.map(el => [el.left, el.right]).flat().filter(el => el !== null)
+}
+
+function getNode(root, level, position) {
 	let localPosition = position
 	let currentNode = root
 	let currentLevel = 1
-	const parents = []
-
 	if (root == null) {
-		return parents
+		return null
 	}
 	while (level !== currentLevel) {
 		const middle = Math.pow(2, level - currentLevel - 1)
 		// Если нужна позиция больше чем середина (для текущего уровня)
 		if (localPosition > middle) {
 			if (currentNode.right === null) {
-				return parents
+				return null
 			}
 			localPosition -= middle
 			currentNode = currentNode.right
 			currentLevel++
 		} else {
 			if (currentNode.left === null) {
-				return parents
+				return null
 			}
 			currentNode = currentNode.left
 			currentLevel++
 		}
 	}
-	return [currentNode.left, currentNode.right].filter(el => el !== null)
+	return currentNode
 }
 
-function getGrandparents(root, level, position) {
-	const parents = getParents(root, level, position)
-	return parents.map(el => [el?.left, el?.right]).flat()
+function getAncestors(root, level, position) {
+	const node = getNode(root, level, position)
+	const stack = [node]
+	const result = []
+	if (node === null) {
+		return result
+	}
+	while (stack.length !== 0) {
+		const first = stack.shift()
+		if (first) {
+			stack.push(first.left, first.right)
+		}
+		if (first) {
+			result.push(first)
+		} else {
+			result.push(null)
+		}
+	}
+	return result.filter(el => el !== null).slice(1)
 }
 
-export {print, insert, remove, getHeight, getParents, getGrandparents}
+function getChild(root, level, position) {
+	if (root === null) {
+		return null
+	}
+	return getNode(root, level - 1, Math.round(position / 2))
+}
+
+export {print, insert, remove, getHeight, getParents, getGrandparents, getNode, getAncestors, getChild}
