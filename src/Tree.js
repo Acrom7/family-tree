@@ -131,6 +131,10 @@ function getParents(root, level, position) {
 	let currentNode = root
 	let currentLevel = 1
 	const parents = []
+
+	if (root == null) {
+		return parents
+	}
 	while (level !== currentLevel) {
 		const middle = Math.pow(2, level - currentLevel - 1)
 		// Если нужна позиция больше чем середина (для текущего уровня)
@@ -149,7 +153,12 @@ function getParents(root, level, position) {
 			currentLevel++
 		}
 	}
-	return [currentNode.left, currentNode.right]
+	return [currentNode.left, currentNode.right].filter(el => el !== null)
 }
 
-export {print, insert, remove, getHeight, getParents}
+function getGrandparents(root, level, position) {
+	const parents = getParents(root, level, position)
+	return parents.map(el => [el?.left, el?.right]).flat()
+}
+
+export {print, insert, remove, getHeight, getParents, getGrandparents}
