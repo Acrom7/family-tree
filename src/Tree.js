@@ -7,7 +7,7 @@ function print(root) {
 }
 
 function insert(root, value, level, position) {
-	if (position > Math.pow(2, level - 1)) {
+	if (position > Math.pow(2, level - 1) || position < 1) {
 		return root
 	}
 
@@ -52,7 +52,7 @@ function insert(root, value, level, position) {
 }
 
 function remove(root, level, position) {
-	if (root === null) {
+	if (position > Math.pow(2, level - 1) || position < 1 || root === null) {
 		return root
 	}
 
