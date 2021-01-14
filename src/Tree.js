@@ -2,7 +2,7 @@ import {Node} from './Node.js'
 import {treeFromArray, treeToASCII} from '../node_modules/treevis/tree/index.js'
 
 function print(root) {
-	const array = toArray(root)
+	const array = toArray(root).map(el => el === null ? el : el.value)
 	treeToASCII(treeFromArray(array))
 }
 
@@ -118,7 +118,7 @@ function toArray(root) {
 			stack.push(first.left, first.right)
 		}
 		if (first) {
-			result.push(first.value)
+			result.push(first)
 		} else {
 			result.push(null)
 		}
@@ -192,4 +192,9 @@ function getChild(root, level, position) {
 	return getNode(root, level - 1, Math.round(position / 2))
 }
 
-export {print, insert, remove, getHeight, getParents, getGrandparents, getNode, getAncestors, getChild}
+function getByName(root, name) {
+	const nodes = toArray(root)
+	return nodes.filter(el => el !== null).filter(el => el.value === name)
+}
+
+export {print, insert, remove, getHeight, getParents, getGrandparents, getNode, getAncestors, getChild, getByName}
